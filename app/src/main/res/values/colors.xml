@@ -4,6 +4,7 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="background">#191926</color>
+    <color name="background_shadow">#161626</color>
     <color name="white">#FFFFFFFF</color>
 
     <color name="genre_rating_color">#FF3466</color>
