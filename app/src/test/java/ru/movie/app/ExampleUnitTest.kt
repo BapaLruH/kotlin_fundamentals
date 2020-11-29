@@ -1,4 +1,4 @@
-package ru.hello.application
+package ru.movie.app
 
 import org.junit.Test
 

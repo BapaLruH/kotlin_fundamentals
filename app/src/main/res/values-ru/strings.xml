@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Movie application</string>
+    <string name="text_back">Назад</string>
+    <string name="storyline">Описание</string>
+    <string name="cast">В ролях</string>
+
+    <plurals name="reviews">
+        <item quantity="one">%1$d РЕЦЕНЗИЯ</item>
+        <item quantity="few">%1$d РЕЦЕНЗИИ</item>
+        <item quantity="many">%1$d РЕЦЕНЗИЙ</item>
+        <item quantity="other">%1$d РЕЦЕНЗИЙ</item>
+    </plurals>
+
+</resources>

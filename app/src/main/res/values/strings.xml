@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">Hello Application</string>
+    <string name="app_name">Movie application</string>
+    <string name="text_back">Back</string>
+    <string name="storyline">Storyline</string>
+    <string name="cast">Cast</string>
+
+    <plurals name="reviews">
+        <item quantity="zero">NO REVIEWS</item>
+        <item quantity="one">%1$d REVIEW</item>
+        <item quantity="two">%1$d REVIEW</item>
+        <item quantity="few">%1$d REVIEW</item>
+        <item quantity="many">%1$d REVIEWS</item>
+        <item quantity="other">%1$d REVIEWS</item>
+    </plurals>
 </resources>
