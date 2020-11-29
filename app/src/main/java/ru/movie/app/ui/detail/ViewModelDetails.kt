@@ -32,7 +32,7 @@ class ViewModelDetails : ViewModel() {
     private val _movieDetailLiveData = MutableLiveData<MovieDetail>()
     val movieDetailLiveData: LiveData<MovieDetail> = _movieDetailLiveData
 
-    private val _movieRatingLiveData = MutableLiveData<Int>().apply { value = 0 }
+    private val _movieRatingLiveData = MutableLiveData(0)
     val movieRatingLiveData: LiveData<Int> = _movieRatingLiveData
 
     fun getMovieById(id: Int) {
