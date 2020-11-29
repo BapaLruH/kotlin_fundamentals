@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.detail.ActivityMovieDetails">
+    tools:context=".ui.ActivityMain">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,16 +22,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/avengers_img" />
 
-        <ImageView
-            android:id="@+id/ivBackArrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:src="@drawable/ic_back_arrow"
-            app:layout_constraintBottom_toBottomOf="@+id/tvBack"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvBack" />
-
         <View
             android:layout_width="0dp"
             android:layout_height="100dp"
@@ -43,13 +33,16 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <TextView
-            android:id="@+id/tvBack"
+            android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:drawablePadding="4dp"
+            android:gravity="center"
             android:text="@string/text_back"
-            app:layout_constraintStart_toEndOf="@+id/ivBackArrow"
+            app:drawableStartCompat="@drawable/ic_back_arrow"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

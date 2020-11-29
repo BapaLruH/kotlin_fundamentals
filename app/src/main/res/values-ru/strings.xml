@@ -11,5 +11,6 @@
         <item quantity="many">%1$d РЕЦЕНЗИЙ</item>
         <item quantity="other">%1$d РЕЦЕНЗИЙ</item>
     </plurals>
+    <string name="movies_list">Список фильмов</string>
 
 </resources>
