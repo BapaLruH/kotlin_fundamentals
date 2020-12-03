@@ -14,14 +14,12 @@ class ActivityMain : AppCompatActivity() {
 
     private val clickListener: (Int) -> Unit = { movieId ->
         supportFragmentManager.beginTransaction()
-            .apply {
-                replace(
-                    R.id.flContainer,
-                    FragmentMoviesDetails.newInstance(movieId)
-                )
-                addToBackStack(null)
-                commit()
-            }
+            .replace(
+                R.id.flContainer,
+                FragmentMoviesDetails.newInstance(movieId)
+            )
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,14 +32,12 @@ class ActivityMain : AppCompatActivity() {
     private fun setupListFragment(savedState: Boolean) {
         if (savedState) {
             supportFragmentManager.beginTransaction()
-                .apply {
-                    replace(
-                        R.id.flContainer,
-                        FragmentMoviesList().also { it.clickListener = clickListener },
-                        MOVIES_LIST_FRAGMENT_TAG
-                    )
-                    commit()
-                }
+                .replace(
+                    R.id.flContainer,
+                    FragmentMoviesList().also { it.clickListener = clickListener },
+                    MOVIES_LIST_FRAGMENT_TAG
+                )
+                .commit()
         } else {
             ((supportFragmentManager.findFragmentByTag(MOVIES_LIST_FRAGMENT_TAG)) as? FragmentMoviesList)?.let {
                 it.clickListener = clickListener
