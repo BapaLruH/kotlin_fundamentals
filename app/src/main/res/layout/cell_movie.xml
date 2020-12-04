@@ -14,25 +14,17 @@
         android:background="@drawable/shape_movie_background"
         android:padding="2dp">
 
-        <ImageView
+        <ru.movie.app.ui.views.CustomImageView
             android:id="@+id/ivMovie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="centerCrop"
+            app:bottomBackgroundDrawable="@drawable/shape_layer"
+            app:bottomBackgroundHeight="100dp"
+            app:topCornerRadius="6dp"
             app:srcCompat="@drawable/movie_avengers" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:background="@drawable/shape_layer_movie"
-            app:layout_constraintBottom_toBottomOf="@+id/ivMovie"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/tvAgeRestriction"

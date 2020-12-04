@@ -3,4 +3,10 @@
     <declare-styleable name="CustomRatingBar">
         <attr name="iconStarSize" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="CustomImageView">
+        <attr name="topCornerRadius" format="dimension"/>
+        <attr name="bottomBackgroundHeight" format="dimension"/>
+        <attr name="bottomBackgroundDrawable" format="reference"/>
+    </declare-styleable>
 </resources>
