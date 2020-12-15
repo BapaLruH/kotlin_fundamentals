@@ -33,7 +33,8 @@ class MoviesAdapter(
         holder.binding.ivLike.setImageDrawable(
             ResourcesCompat.getDrawable(
                 context.resources,
-                if (movie.like) R.drawable.ic_like_on else R.drawable.ic_like_off, context.theme
+                if (movie.like) R.drawable.ic_like_on
+                else R.drawable.ic_like_off, context.theme
             )
         )
         holder.binding.tvGenre.text = movie.genre

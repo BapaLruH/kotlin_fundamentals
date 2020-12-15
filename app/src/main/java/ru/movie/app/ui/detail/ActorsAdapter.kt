@@ -2,8 +2,6 @@ package ru.movie.app.ui.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.movie.app.databinding.CellActorBinding
