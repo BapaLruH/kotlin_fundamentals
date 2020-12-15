@@ -12,4 +12,7 @@
         <item quantity="many">%1$d REVIEWS</item>
         <item quantity="other">%1$d REVIEWS</item>
     </plurals>
+
+    <string name="movie_duration" translatable="false">%1$d MIN</string>
+    <string name="movies_list">Movies list</string>
 </resources>

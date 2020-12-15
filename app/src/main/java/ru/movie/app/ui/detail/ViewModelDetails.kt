@@ -16,7 +16,7 @@ class ViewModelDetails : ViewModel() {
             "13+",
             "Action, Adventure, Fantasy",
             4,
-            0,
+            1,
             "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
             listOf(
                 Actor(R.drawable.actor_robert, "Robert Downey Jr."),
