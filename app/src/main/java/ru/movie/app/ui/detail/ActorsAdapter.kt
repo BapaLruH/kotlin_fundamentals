@@ -2,8 +2,8 @@ package ru.movie.app.ui.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.movie.app.databinding.CellActorBinding
 import ru.movie.app.ui.model.Actor
 
@@ -20,9 +20,11 @@ class ActorsAdapter(private val actors: MutableList<Actor> = mutableListOf()) :
 
     override fun onBindViewHolder(holder: ActorHolder, position: Int) = holder.run {
         val context = holder.itemView.context
-        holder.binding.ivActorPhoto.background =
-            ResourcesCompat.getDrawable(context.resources, actors[position].photo, context.theme)
-        holder.binding.tvActorName.text = actors[position].name
+        val actor = actors[position]
+        Glide.with(context)
+            .load(actor.picture)
+            .into(holder.binding.ivActorPhoto)
+        holder.binding.tvActorName.text = actor.name
     }
 
     override fun getItemCount(): Int {

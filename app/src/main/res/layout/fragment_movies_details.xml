@@ -18,11 +18,11 @@
             android:scaleType="centerCrop"
             app:bottomBackgroundDrawable="@drawable/shape_layer"
             app:bottomBackgroundHeight="100dp"
+            app:imagePlaceHolder="@drawable/shape_solid"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/avengers_img" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/btnBack"
@@ -164,6 +164,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="16dp"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

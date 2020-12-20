@@ -13,6 +13,7 @@
         <item quantity="other">%1$d REVIEWS</item>
     </plurals>
 
+    <string name="age_restriction" translatable="false">%1$d+</string>
     <string name="movie_duration" translatable="false">%1$d MIN</string>
     <string name="movies_list">Movies list</string>
 </resources>

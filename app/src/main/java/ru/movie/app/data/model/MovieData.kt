@@ -1,6 +1,6 @@
-package ru.movie.app.ui.model
+package ru.movie.app.data.model
 
-data class Movie(
+data class MovieData(
     val id: Int,
     val title: String,
     val overview: String,
@@ -11,6 +11,6 @@ data class Movie(
     val minimumAge: Int,
     val runtime: Int,
     val like: Boolean = false,
-    val genres: String,
-    val actors: List<Actor>
+    val genres: List<GenreData>,
+    val actors: List<ActorData>
 )

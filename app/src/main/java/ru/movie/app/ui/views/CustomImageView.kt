@@ -32,11 +32,13 @@ class CustomImageView @JvmOverloads constructor(
     }
 
     private val viewRect = Rect()
+    private var placeHolder: Drawable? = null
     private lateinit var resultBm: Bitmap
 
     init {
         if (attrs != null) {
             val typeArray = context.obtainStyledAttributes(attrs, R.styleable.CustomImageView)
+            placeHolder = typeArray.getDrawable(R.styleable.CustomImageView_imagePlaceHolder)
             topCornerRadius = typeArray.getDimension(
                 R.styleable.CustomImageView_topCornerRadius,
                 context.dpToPx(DEFAULT_TOP_CORNER_RADIUS)
@@ -64,7 +66,7 @@ class CustomImageView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas?) {
-        viewRect.set(0, 0, width, height + topCornerRadius.toInt())
+        viewRect.set(0, 0, width, height - topCornerRadius.toInt())
         canvas?.save()
         canvas?.clipRect(0, 0, width, height)
         canvas?.drawRoundRect(viewRect.toRectF(), topCornerRadius, topCornerRadius, imagePaint)
@@ -79,10 +81,16 @@ class CustomImageView @JvmOverloads constructor(
         imagePaint.shader = BitmapShader(resultBm, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
     }
 
-    private fun prepareBitmap(w: Int, h: Int) {
+    override fun setImageDrawable(drawable: Drawable?) {
+        super.setImageDrawable(drawable)
+        if (width != 0 && height != 0)
+            prepareShader(width, height)
+    }
 
+    private fun prepareBitmap(w: Int, h: Int) {
         viewRect.set(0, 0, w, h)
 
+        val drawable = drawable ?: placeHolder!!
         val rslBm = drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
         resultBm = rslBm.copy(Bitmap.Config.ARGB_8888, true)
         rslBm.recycle()

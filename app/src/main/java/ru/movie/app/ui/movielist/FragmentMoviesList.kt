@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import ru.movie.app.databinding.FragmentMoviesListBinding
+import ru.movie.app.ui.AppViewModelFactory
 
 
 class FragmentMoviesList : Fragment() {
@@ -35,7 +36,8 @@ class FragmentMoviesList : Fragment() {
             GridLayoutManager(requireContext(), 2)
         binding.rvMovies.adapter = adapter
 
-        viewModel = ViewModelProvider(this).get(ViewModelMoviesList::class.java)
+        viewModel =
+            ViewModelProvider(this, AppViewModelFactory).get(ViewModelMoviesList::class.java)
         viewModel.moviesLiveData.observe(this, { list ->
             list?.let {
                 adapter.updateList(it)
@@ -43,13 +45,9 @@ class FragmentMoviesList : Fragment() {
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadList()
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewModel.moviesLiveData.removeObservers(this)
     }
 }

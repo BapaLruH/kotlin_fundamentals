@@ -3,40 +3,30 @@ package ru.movie.app.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.movie.app.R
-import ru.movie.app.ui.model.Actor
-import ru.movie.app.ui.model.MovieDetail
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import ru.movie.app.data.model.MovieData
+import ru.movie.app.data.model.Result
+import ru.movie.app.ui.model.Movie
+import ru.movie.app.ui.repository.IRepository
+import ru.movie.app.ui.views.convertToMovie
 
-class ViewModelDetails : ViewModel() {
-    private var moviesStore: MutableList<MovieDetail> = mutableListOf(
-        MovieDetail(
-            0,
-            "Avengers: End Game",
-            R.drawable.avengers_img,
-            "13+",
-            "Action, Adventure, Fantasy",
-            4,
-            1,
-            "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe.",
-            listOf(
-                Actor(R.drawable.actor_robert, "Robert Downey Jr."),
-                Actor(R.drawable.actor_chris, "Chris Evans"),
-                Actor(R.drawable.actor_mark, "Mark Ruffalo"),
-                Actor(R.drawable.actor_chris_hemsworth, "Chris Hemsworth"),
-                Actor(R.drawable.actor_chris_hemsworth, "Chris Hemsworth"),
-                Actor(R.drawable.actor_chris_hemsworth, "Chris Hemsworth")
-            )
-        )
-    )
+class ViewModelDetails(private val repository: IRepository<MovieData>) : ViewModel() {
 
-    private val _movieDetailLiveData = MutableLiveData<MovieDetail>()
-    val movieDetailLiveData: LiveData<MovieDetail> = _movieDetailLiveData
+    private val _movieDetailLiveData = MutableLiveData<Movie>()
+    val movieDetailLiveData: LiveData<Movie> = _movieDetailLiveData
 
     private val _movieRatingLiveData = MutableLiveData(0)
     val movieRatingLiveData: LiveData<Int> = _movieRatingLiveData
 
     fun getMovieById(id: Int) {
-        _movieDetailLiveData.value = moviesStore[id]
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.getMovieById(id)) {
+                is Result.Success -> _movieDetailLiveData.postValue(result.data.convertToMovie())
+                is Result.Error -> throw  IllegalArgumentException(result.exception.message)
+            }
+        }
     }
 
     fun changeRating() {
