@@ -15,6 +15,7 @@ import ru.movie.app.data.model.Result
 class MovieDataSource(private val context: Context) : IMovieDataSource<MovieData> {
 
     private lateinit var cashedMoviesList: Map<Int, MovieData>
+    private val jsonFormat = Json { ignoreUnknownKeys = true }
 
     override suspend fun loadMovies(): Result<List<MovieData>> {
         return Result.Success(loadMovies(context))
@@ -24,39 +25,6 @@ class MovieDataSource(private val context: Context) : IMovieDataSource<MovieData
         val movie = cashedMoviesList[id] ?: return Result.Error(Exception("Movie not found"))
         return Result.Success(movie)
     }
-
-    private val jsonFormat = Json { ignoreUnknownKeys = true }
-
-    @Serializable
-    private class JsonGenre(val id: Int, val name: String)
-
-    @Serializable
-    private class JsonActor(
-        val id: Int,
-        val name: String,
-        @SerialName("profile_path")
-        val profilePicture: String
-    )
-
-    @Serializable
-    private class JsonMovie(
-        val id: Int,
-        val title: String,
-        @SerialName("poster_path")
-        val posterPicture: String,
-        @SerialName("backdrop_path")
-        val backdropPicture: String,
-        val runtime: Int,
-        @SerialName("genre_ids")
-        val genreIds: List<Int>,
-        val actors: List<Int>,
-        @SerialName("vote_average")
-        val ratings: Float,
-        @SerialName("vote_count")
-        val votesCount: Int,
-        val overview: String,
-        val adult: Boolean
-    )
 
     private suspend fun loadGenres(context: Context): List<GenreData> =
         withContext(Dispatchers.IO) {
@@ -126,4 +94,35 @@ class MovieDataSource(private val context: Context) : IMovieDataSource<MovieData
             )
         }
     }
+
+    @Serializable
+    private class JsonGenre(val id: Int, val name: String)
+
+    @Serializable
+    private class JsonActor(
+        val id: Int,
+        val name: String,
+        @SerialName("profile_path")
+        val profilePicture: String
+    )
+
+    @Serializable
+    private class JsonMovie(
+        val id: Int,
+        val title: String,
+        @SerialName("poster_path")
+        val posterPicture: String,
+        @SerialName("backdrop_path")
+        val backdropPicture: String,
+        val runtime: Int,
+        @SerialName("genre_ids")
+        val genreIds: List<Int>,
+        val actors: List<Int>,
+        @SerialName("vote_average")
+        val ratings: Float,
+        @SerialName("vote_count")
+        val votesCount: Int,
+        val overview: String,
+        val adult: Boolean
+    )
 }

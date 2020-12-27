@@ -9,17 +9,23 @@
     android:background="@drawable/shape_movie_background"
     android:padding="2dp">
 
-    <ru.movie.app.ui.views.CustomImageView
+    <ImageView
         android:id="@+id/ivMovie"
         android:layout_width="match_parent"
         android:layout_height="245dp"
-        app:bottomBackgroundDrawable="@drawable/shape_layer"
-        app:bottomBackgroundHeight="100dp"
-        app:imagePlaceHolder="@drawable/shape_solid"
+        android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:topCornerRadius="6dp" />
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/shape_layer"
+        app:layout_constraintBottom_toBottomOf="@+id/ivMovie"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvAgeRestriction"
@@ -27,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
-        android:background="@drawable/shape_rounded"
+        android:background="@drawable/shape_rounded_with_shadow"
         android:paddingHorizontal="2dp"
         android:paddingTop="4dp"
         android:paddingBottom="7dp"

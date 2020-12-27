@@ -9,6 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.toRectF
 import ru.movie.app.R
+import ru.movie.app.ui.extensions.dpToPxFloat
 
 class CustomImageView @JvmOverloads constructor(
     context: Context,
@@ -22,7 +23,7 @@ class CustomImageView @JvmOverloads constructor(
     }
 
     @Px
-    private var topCornerRadius: Float = context.dpToPx(DEFAULT_TOP_CORNER_RADIUS)
+    private var topCornerRadius: Float = context.dpToPxFloat(DEFAULT_TOP_CORNER_RADIUS)
     private var bottomBackgroundHeight: Float = DEFAULT_BOTTOM_GRADIENT_HEIGHT
     private var bottomBackgroundDrawable: Drawable? = null
 
@@ -41,7 +42,7 @@ class CustomImageView @JvmOverloads constructor(
             placeHolder = typeArray.getDrawable(R.styleable.CustomImageView_imagePlaceHolder)
             topCornerRadius = typeArray.getDimension(
                 R.styleable.CustomImageView_topCornerRadius,
-                context.dpToPx(DEFAULT_TOP_CORNER_RADIUS)
+                context.dpToPxFloat(DEFAULT_TOP_CORNER_RADIUS)
             )
             bottomBackgroundHeight = typeArray.getDimension(
                 R.styleable.CustomImageView_bottomBackgroundHeight,
@@ -91,9 +92,8 @@ class CustomImageView @JvmOverloads constructor(
         viewRect.set(0, 0, w, h)
 
         val drawable = drawable ?: placeHolder!!
-        val rslBm = drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
-        resultBm = rslBm.copy(Bitmap.Config.ARGB_8888, true)
-        rslBm.recycle()
+        resultBm = drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
+            .copy(Bitmap.Config.ARGB_8888, true)
 
         val canvas = Canvas(resultBm)
         canvas.drawBitmap(resultBm, viewRect, viewRect, imagePaint)

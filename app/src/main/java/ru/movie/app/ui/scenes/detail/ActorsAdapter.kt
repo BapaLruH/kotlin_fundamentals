@@ -1,4 +1,4 @@
-package ru.movie.app.ui.detail
+package ru.movie.app.ui.scenes.detail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

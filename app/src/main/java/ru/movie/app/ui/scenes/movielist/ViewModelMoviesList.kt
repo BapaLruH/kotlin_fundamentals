@@ -1,4 +1,4 @@
-package ru.movie.app.ui.movielist
+package ru.movie.app.ui.scenes.movielist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +11,7 @@ import ru.movie.app.data.model.Result.Error
 import ru.movie.app.data.model.Result.Success
 import ru.movie.app.ui.model.Movie
 import ru.movie.app.ui.repository.IRepository
-import ru.movie.app.ui.views.convertToMovie
+import ru.movie.app.ui.extensions.convertToMovie
 
 class ViewModelMoviesList(private val repository: IRepository<MovieData>) : ViewModel() {
 
@@ -26,7 +26,6 @@ class ViewModelMoviesList(private val repository: IRepository<MovieData>) : View
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = repository.loadMovies()) {
                 is Success -> _moviesLiveData.postValue(result.data.map { it.convertToMovie() })
-                //todo error branch
                 is Error -> _moviesLiveData.postValue(emptyList())
             }
         }

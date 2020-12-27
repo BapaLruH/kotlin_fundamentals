@@ -1,25 +1,28 @@
-package ru.movie.app.ui.movielist
+package ru.movie.app.ui.scenes.movielist
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.load.resource.bitmap.FitCenter
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import ru.movie.app.R
 import ru.movie.app.databinding.CellMovieBinding
+import ru.movie.app.ui.extensions.dpToPxInt
 import ru.movie.app.ui.model.Movie
 
 class MoviesAdapter(
     private val movies: MutableList<Movie> = mutableListOf(),
     private val listener: ((Int) -> Unit)?
 ) : RecyclerView.Adapter<MoviesAdapter.MovieHolder>() {
+    private var requestOptions = RequestOptions()
 
     class MovieHolder(val binding: CellMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieHolder {
+        requestOptions = requestOptions.transform(FitCenter(), RoundedCorners(parent.context.dpToPxInt(6)))
         return MovieHolder(
             CellMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
@@ -32,17 +35,9 @@ class MoviesAdapter(
         holder.binding.tvMovieTitle.text = movie.title
         Glide.with(context)
             .load(movie.poster)
-            .into(object : CustomTarget<Drawable>() {
-                override fun onResourceReady(
-                    resource: Drawable,
-                    transition: Transition<in Drawable>?
-                ) {
-                    holder.binding.ivMovie.setImageDrawable(resource)
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
-            })
+            .placeholder(R.drawable.shape_solid)
+            .apply(requestOptions)
+            .into(holder.binding.ivMovie)
 
         holder.binding.tvAgeRestriction.text =
             context.getString(R.string.age_restriction, movie.minimumAge)

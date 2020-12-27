@@ -1,6 +1,5 @@
-package ru.movie.app.ui.detail
+package ru.movie.app.ui.scenes.detail
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import ru.movie.app.R
 import ru.movie.app.databinding.FragmentMoviesDetailsBinding
 import ru.movie.app.ui.AppViewModelFactory
@@ -66,11 +63,11 @@ class FragmentMoviesDetails : Fragment() {
 
 
         viewModel = ViewModelProvider(this, AppViewModelFactory).get(ViewModelDetails::class.java)
-        viewModel.movieDetailLiveData.observe(this, { movie ->
+        viewModel.movieDetailLiveData.observe(viewLifecycleOwner, { movie ->
             updateUi(movie)
         })
 
-        viewModel.movieRatingLiveData.observe(this, { reviews ->
+        viewModel.movieRatingLiveData.observe(viewLifecycleOwner, { reviews ->
             binding.tvRating.text =
                 this.resources.getQuantityString(R.plurals.reviews, reviews, reviews)
         })
@@ -83,18 +80,8 @@ class FragmentMoviesDetails : Fragment() {
     private fun updateUi(movie: Movie) {
         Glide.with(this)
             .load(movie.backdrop)
-            .into(object : CustomTarget<Drawable>() {
-                override fun onResourceReady(
-                    resource: Drawable,
-                    transition: Transition<in Drawable>?
-                ) {
-                    binding.ivMovie.setImageDrawable(resource)
-                }
-
-                override fun onLoadCleared(placeholder: Drawable?) {
-                }
-
-            })
+            .centerCrop()
+            .into(binding.ivMovie)
 
         binding.btnBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()

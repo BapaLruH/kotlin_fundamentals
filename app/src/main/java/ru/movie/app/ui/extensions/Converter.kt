@@ -1,4 +1,4 @@
-package ru.movie.app.ui.views
+package ru.movie.app.ui.extensions
 
 import ru.movie.app.data.model.ActorData
 import ru.movie.app.data.model.MovieData

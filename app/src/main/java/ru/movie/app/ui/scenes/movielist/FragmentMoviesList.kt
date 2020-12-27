@@ -1,6 +1,7 @@
-package ru.movie.app.ui.movielist
+package ru.movie.app.ui.scenes.movielist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +39,7 @@ class FragmentMoviesList : Fragment() {
 
         viewModel =
             ViewModelProvider(this, AppViewModelFactory).get(ViewModelMoviesList::class.java)
-        viewModel.moviesLiveData.observe(this, { list ->
+        viewModel.moviesLiveData.observe(viewLifecycleOwner, { list ->
             list?.let {
                 adapter.updateList(it)
             }
@@ -48,6 +49,5 @@ class FragmentMoviesList : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        viewModel.moviesLiveData.removeObservers(this)
     }
 }

@@ -1,4 +1,4 @@
-package ru.movie.app.ui.detail
+package ru.movie.app.ui.scenes.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import ru.movie.app.data.model.MovieData
 import ru.movie.app.data.model.Result
 import ru.movie.app.ui.model.Movie
 import ru.movie.app.ui.repository.IRepository
-import ru.movie.app.ui.views.convertToMovie
+import ru.movie.app.ui.extensions.convertToMovie
 
 class ViewModelDetails(private val repository: IRepository<MovieData>) : ViewModel() {
 

@@ -3,8 +3,8 @@ package ru.movie.app.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.movie.app.data.Repository
-import ru.movie.app.ui.detail.ViewModelDetails
-import ru.movie.app.ui.movielist.ViewModelMoviesList
+import ru.movie.app.ui.scenes.detail.ViewModelDetails
+import ru.movie.app.ui.scenes.movielist.ViewModelMoviesList
 import ru.movie.app.ui.repository.IRepository
 
 object AppViewModelFactory : ViewModelProvider.Factory {
