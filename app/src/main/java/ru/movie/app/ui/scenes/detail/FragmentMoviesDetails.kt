@@ -1,17 +1,18 @@
-package ru.movie.app.ui.detail
+package ru.movie.app.ui.scenes.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.movie.app.R
 import ru.movie.app.databinding.FragmentMoviesDetailsBinding
-import ru.movie.app.ui.model.MovieDetail
+import ru.movie.app.ui.AppViewModelFactory
+import ru.movie.app.ui.model.Movie
 
 class FragmentMoviesDetails : Fragment() {
     private var movieId: Int? = null
@@ -61,12 +62,12 @@ class FragmentMoviesDetails : Fragment() {
         binding.rvActors.adapter = adapter
 
 
-        viewModel = ViewModelProvider(this).get(ViewModelDetails::class.java)
-        viewModel.movieDetailLiveData.observe(this, { movie ->
+        viewModel = ViewModelProvider(this, AppViewModelFactory).get(ViewModelDetails::class.java)
+        viewModel.movieDetailLiveData.observe(viewLifecycleOwner, { movie ->
             updateUi(movie)
         })
 
-        viewModel.movieRatingLiveData.observe(this, { reviews ->
+        viewModel.movieRatingLiveData.observe(viewLifecycleOwner, { reviews ->
             binding.tvRating.text =
                 this.resources.getQuantityString(R.plurals.reviews, reviews, reviews)
         })
@@ -76,24 +77,26 @@ class FragmentMoviesDetails : Fragment() {
         }
     }
 
-    private fun updateUi(movie: MovieDetail) {
-        binding.ivMovie.setImageDrawable(
-            ResourcesCompat.getDrawable(
-                resources,
-                movie.pageScreen,
-                requireContext().theme
-            )
-        )
+    private fun updateUi(movie: Movie) {
+        Glide.with(this)
+            .load(movie.backdrop)
+            .centerCrop()
+            .into(binding.ivMovie)
+
         binding.btnBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-        binding.tvAgeRestriction.text = movie.ageRestriction
+        binding.tvAgeRestriction.text = getString(R.string.age_restriction, movie.minimumAge)
         binding.tvMovieTitle.text = movie.title
-        binding.tvGenre.text = movie.genre
+        binding.tvGenre.text = movie.genres
         binding.tvRating.text =
-            resources.getQuantityString(R.plurals.reviews, movie.reviews, movie.reviews)
-        binding.customRatingBar.rating = movie.rating.toFloat()
-        binding.tvMovieDescription.text = movie.description
+            resources.getQuantityString(
+                R.plurals.reviews,
+                movie.numberOfRatings,
+                movie.numberOfRatings
+            )
+        binding.customRatingBar.rating = movie.ratings
+        binding.tvMovieDescription.text = movie.overview
         adapter.update(movie.actors)
     }
 

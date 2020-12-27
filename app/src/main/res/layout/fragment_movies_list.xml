@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.movielist.FragmentMoviesList">
+    tools:context=".ui.scenes.movielist.FragmentMoviesList">
 
     <ImageView
         android:id="@+id/imageView"

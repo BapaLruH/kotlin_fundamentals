@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.ActivityMain">
+    tools:context=".ui.scenes.ActivityMain">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,11 +18,11 @@
             android:scaleType="centerCrop"
             app:bottomBackgroundDrawable="@drawable/shape_layer"
             app:bottomBackgroundHeight="100dp"
+            app:imagePlaceHolder="@drawable/shape_solid"
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/avengers_img" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/btnBack"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="12dp"
-            android:background="@drawable/shape_rounded"
+            android:background="@drawable/shape_rounded_with_shadow"
             android:paddingHorizontal="2dp"
             android:paddingTop="4dp"
             android:paddingBottom="7dp"
@@ -164,6 +164,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="16dp"
+            android:overScrollMode="never"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

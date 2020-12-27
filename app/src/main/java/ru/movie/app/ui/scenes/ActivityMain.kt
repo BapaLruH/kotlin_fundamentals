@@ -1,10 +1,10 @@
-package ru.movie.app.ui
+package ru.movie.app.ui.scenes
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ru.movie.app.R
-import ru.movie.app.ui.detail.FragmentMoviesDetails
-import ru.movie.app.ui.movielist.FragmentMoviesList
+import ru.movie.app.ui.scenes.detail.FragmentMoviesDetails
+import ru.movie.app.ui.scenes.movielist.FragmentMoviesList
 
 class ActivityMain : AppCompatActivity() {
 

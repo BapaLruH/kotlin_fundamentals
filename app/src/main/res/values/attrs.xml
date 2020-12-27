@@ -5,6 +5,7 @@
     </declare-styleable>
 
     <declare-styleable name="CustomImageView">
+        <attr name="imagePlaceHolder" format="reference"/>
         <attr name="topCornerRadius" format="dimension"/>
         <attr name="bottomBackgroundHeight" format="dimension"/>
         <attr name="bottomBackgroundDrawable" format="reference"/>

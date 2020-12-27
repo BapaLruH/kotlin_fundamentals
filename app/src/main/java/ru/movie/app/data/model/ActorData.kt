@@ -1,6 +1,6 @@
-package ru.movie.app.ui.model
+package ru.movie.app.data.model
 
-data class Actor(
+data class ActorData(
     val id: Int,
     val name: String,
     val picture: String
