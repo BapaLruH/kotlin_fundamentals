@@ -9,9 +9,9 @@ import kotlinx.coroutines.launch
 import ru.movie.app.data.model.MovieData
 import ru.movie.app.data.model.Result.Error
 import ru.movie.app.data.model.Result.Success
+import ru.movie.app.ui.extensions.convertToMovie
 import ru.movie.app.ui.model.Movie
 import ru.movie.app.ui.repository.IRepository
-import ru.movie.app.ui.extensions.convertToMovie
 
 class ViewModelMoviesList(private val repository: IRepository<MovieData>) : ViewModel() {
 

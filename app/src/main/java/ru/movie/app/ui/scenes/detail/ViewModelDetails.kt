@@ -8,9 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.movie.app.data.model.MovieData
 import ru.movie.app.data.model.Result
+import ru.movie.app.ui.extensions.convertToMovie
 import ru.movie.app.ui.model.Movie
 import ru.movie.app.ui.repository.IRepository
-import ru.movie.app.ui.extensions.convertToMovie
 
 class ViewModelDetails(private val repository: IRepository<MovieData>) : ViewModel() {
 

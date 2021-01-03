@@ -15,7 +15,6 @@
             android:id="@+id/ivMovie"
             android:layout_width="0dp"
             android:layout_height="300dp"
-            android:scaleType="centerCrop"
             app:bottomBackgroundDrawable="@drawable/shape_layer"
             app:bottomBackgroundHeight="100dp"
             app:imagePlaceHolder="@drawable/shape_solid"
@@ -165,12 +164,14 @@
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="16dp"
             android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCast"
             app:layout_constraintVertical_bias="0.0"
-            tools:itemCount="1"
+            tools:itemCount="5"
             tools:listitem="@layout/cell_actor" />
 
         <androidx.constraintlayout.widget.Guideline

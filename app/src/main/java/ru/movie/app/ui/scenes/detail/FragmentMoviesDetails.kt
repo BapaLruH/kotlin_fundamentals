@@ -5,21 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import coil.load
+import coil.transform.RoundedCornersTransformation
 import ru.movie.app.R
+import ru.movie.app.databinding.CellActorBinding
 import ru.movie.app.databinding.FragmentMoviesDetailsBinding
-import ru.movie.app.ui.AppViewModelFactory
+import ru.movie.app.ui.MainApp
+import ru.movie.app.ui.extensions.dpToPxFloat
+import ru.movie.app.ui.extensions.fragmentViewModels
+import ru.movie.app.ui.model.Actor
 import ru.movie.app.ui.model.Movie
+import ru.movie.app.ui.scenes.adapter.BaseListAdapter
 
 class FragmentMoviesDetails : Fragment() {
     private var movieId: Int? = null
     private var _binding: FragmentMoviesDetailsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: ViewModelDetails
-    private lateinit var adapter: ActorsAdapter
+    private val viewModel by fragmentViewModels {
+        with(requireContext().applicationContext as MainApp) {
+            ViewModelDetails(movieRepository)
+        }
+    }
+    private lateinit var adapter: BaseListAdapter<CellActorBinding, Actor>
+    private var cornerRadius: Float = 0f
 
     companion object {
         const val ARG_MOVIE_ID = "movieId"
@@ -55,14 +63,51 @@ class FragmentMoviesDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        cornerRadius = requireContext().dpToPxFloat(6)
+        initAdapter().also {
+            binding.rvActors.adapter = adapter
+        }
+        initLiveDataObservers()
+    }
 
-        adapter = ActorsAdapter()
-        binding.rvActors.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-        binding.rvActors.adapter = adapter
+    private fun updateUi(movie: Movie) {
+        with(binding) {
+            ivMovie.load(movie.backdrop)
+            btnBack.setOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+            tvAgeRestriction.text = getString(R.string.age_restriction, movie.minimumAge)
+            tvMovieTitle.text = movie.title
+            tvGenre.text = movie.genres
+            tvRating.text =
+                resources.getQuantityString(
+                    R.plurals.reviews,
+                    movie.numberOfRatings,
+                    movie.numberOfRatings
+                )
+            customRatingBar.rating = movie.ratings
+            tvMovieDescription.text = movie.overview
+        }
+        adapter.submitList(movie.actors)
+    }
 
+    private fun initAdapter() {
+        adapter = BaseListAdapter(
+            viewInflater = { layoutInflater, parent, attachToParent ->
+                CellActorBinding.inflate(layoutInflater, parent, attachToParent)
+            },
+            bindFunction = { holder, actor ->
+                with(holder) {
+                    ivActorPhoto.load(actor.picture) {
+                        transformations(RoundedCornersTransformation(cornerRadius))
+                    }
+                    tvActorName.text = actor.name
+                }
+            }
+        )
+    }
 
-        viewModel = ViewModelProvider(this, AppViewModelFactory).get(ViewModelDetails::class.java)
+    private fun initLiveDataObservers() {
         viewModel.movieDetailLiveData.observe(viewLifecycleOwner, { movie ->
             updateUi(movie)
         })
@@ -75,29 +120,6 @@ class FragmentMoviesDetails : Fragment() {
         binding.customRatingBar.setOnRatingBarChangeListener { _, _, fromUser ->
             if (fromUser) viewModel.changeRating()
         }
-    }
-
-    private fun updateUi(movie: Movie) {
-        Glide.with(this)
-            .load(movie.backdrop)
-            .centerCrop()
-            .into(binding.ivMovie)
-
-        binding.btnBack.setOnClickListener {
-            requireActivity().onBackPressedDispatcher.onBackPressed()
-        }
-        binding.tvAgeRestriction.text = getString(R.string.age_restriction, movie.minimumAge)
-        binding.tvMovieTitle.text = movie.title
-        binding.tvGenre.text = movie.genres
-        binding.tvRating.text =
-            resources.getQuantityString(
-                R.plurals.reviews,
-                movie.numberOfRatings,
-                movie.numberOfRatings
-            )
-        binding.customRatingBar.rating = movie.ratings
-        binding.tvMovieDescription.text = movie.overview
-        adapter.update(movie.actors)
     }
 
     override fun onDestroyView() {
