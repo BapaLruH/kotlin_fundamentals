@@ -7,12 +7,12 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.movie.app.data.model.MovieData
-import ru.movie.app.data.model.Result
+import ru.movie.app.data.model.MovieResult
 import ru.movie.app.ui.extensions.convertToMovie
 import ru.movie.app.ui.model.Movie
-import ru.movie.app.ui.repository.IRepository
+import ru.movie.app.ui.repository.IMovieRepository
 
-class ViewModelDetails(private val repository: IRepository<MovieData>) : ViewModel() {
+class ViewModelDetails(private val repository: IMovieRepository<MovieData>) : ViewModel() {
 
     private val _movieDetailLiveData = MutableLiveData<Movie>()
     val movieDetailLiveData: LiveData<Movie> = _movieDetailLiveData
@@ -23,8 +23,8 @@ class ViewModelDetails(private val repository: IRepository<MovieData>) : ViewMod
     fun getMovieById(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = repository.getMovieById(id)) {
-                is Result.Success -> _movieDetailLiveData.postValue(result.data.convertToMovie())
-                is Result.Error -> throw  IllegalArgumentException(result.exception.message)
+                is MovieResult.Success -> _movieDetailLiveData.postValue(result.data.convertToMovie())
+                is MovieResult.Error -> throw  IllegalArgumentException(result.exception.message)
             }
         }
     }

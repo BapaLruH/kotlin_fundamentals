@@ -1,4 +1,4 @@
-package ru.movie.app.data.datasource
+package ru.movie.app.data.datasource.local
 
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
@@ -7,23 +7,24 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import ru.movie.app.data.datasource.IMovieDataSource
 import ru.movie.app.data.model.ActorData
 import ru.movie.app.data.model.GenreData
 import ru.movie.app.data.model.MovieData
-import ru.movie.app.data.model.Result
+import ru.movie.app.data.model.MovieResult
 
 class MovieDataSource(private val context: Context) : IMovieDataSource<MovieData> {
 
     private lateinit var cashedMoviesList: Map<Int, MovieData>
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
-    override suspend fun loadMovies(): Result<List<MovieData>> {
-        return Result.Success(loadMovies(context))
+    override suspend fun loadMovies(): MovieResult<List<MovieData>> {
+        return MovieResult.Success(loadMovies(context))
     }
 
-    override suspend fun getMovieById(id: Int): Result<MovieData> {
-        val movie = cashedMoviesList[id] ?: return Result.Error(Exception("Movie not found"))
-        return Result.Success(movie)
+    override suspend fun getMovieById(id: Int): MovieResult<MovieData> {
+        val movie = cashedMoviesList[id] ?: return MovieResult.Error(Exception("Movie not found"))
+        return MovieResult.Success(movie)
     }
 
     private suspend fun loadGenres(context: Context): List<GenreData> =

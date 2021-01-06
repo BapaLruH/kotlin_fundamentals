@@ -1,8 +1,8 @@
-package ru.movie.app.data.datasource
+package ru.movie.app.ui.repository
 
 import ru.movie.app.data.model.MovieResult
 
-interface IMovieDataSource<T : Any> {
+interface IMovieRepository<T : Any> {
     suspend fun loadMovies(): MovieResult<List<T>>
     suspend fun getMovieById(id: Int): MovieResult<T>
 }

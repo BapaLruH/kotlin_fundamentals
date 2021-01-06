@@ -7,13 +7,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.movie.app.data.model.MovieData
-import ru.movie.app.data.model.Result.Error
-import ru.movie.app.data.model.Result.Success
+import ru.movie.app.data.model.MovieResult.Error
+import ru.movie.app.data.model.MovieResult.Success
 import ru.movie.app.ui.extensions.convertToMovie
 import ru.movie.app.ui.model.Movie
-import ru.movie.app.ui.repository.IRepository
+import ru.movie.app.ui.repository.IMovieRepository
 
-class ViewModelMoviesList(private val repository: IRepository<MovieData>) : ViewModel() {
+class ViewModelMoviesList(private val repository: IMovieRepository<MovieData>) : ViewModel() {
 
     private val _moviesLiveData = MutableLiveData<List<Movie>>()
     val moviesLiveData: LiveData<List<Movie>> = _moviesLiveData
