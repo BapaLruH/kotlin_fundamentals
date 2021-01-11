@@ -10,13 +10,25 @@
     <TextView
         android:id="@+id/tvMovieListTitle"
         android:layout_width="wrap_content"
-        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
         android:layout_marginTop="16dp"
-        android:text="@string/movies_list"
         android:drawablePadding="8dp"
+        android:gravity="center"
+        android:text="@string/movies_list"
         app:drawableStartCompat="@drawable/ic_marker" />
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/progress"
+        android:visibility="gone"
+        android:progress="@android:integer/config_mediumAnimTime"
+        android:drawablePadding="8dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMovies"
