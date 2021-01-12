@@ -7,14 +7,6 @@ import ru.movie.app.data.datasources.local.MovieDataSource
 import ru.movie.app.data.datasources.remote.RemoteMovieDataSource
 
 class MainApp : Application() {
-    lateinit var movieRepository: LocalRepository
-        private set
-    lateinit var remoteMovieRepository: RemoteRepository
-        private set
-
-    override fun onCreate() {
-        super.onCreate()
-        movieRepository = LocalRepository(MovieDataSource(this))
-        remoteMovieRepository = RemoteRepository(RemoteMovieDataSource())
-    }
+    val movieRepository: LocalRepository by lazy { LocalRepository(MovieDataSource(this)) }
+    val remoteMovieRepository: RemoteRepository by lazy { RemoteRepository(RemoteMovieDataSource()) }
 }
