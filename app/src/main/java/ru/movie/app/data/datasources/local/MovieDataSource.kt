@@ -1,4 +1,4 @@
-package ru.movie.app.data.datasource
+package ru.movie.app.data.datasources.local
 
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
@@ -7,34 +7,35 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import ru.movie.app.data.model.ActorData
-import ru.movie.app.data.model.GenreData
-import ru.movie.app.data.model.MovieData
-import ru.movie.app.data.model.Result
+import ru.movie.app.data.datasources.IMovieDataSource
+import ru.movie.app.data.models.Actor
+import ru.movie.app.data.models.Genre
+import ru.movie.app.data.models.Movie
+import ru.movie.app.data.models.MovieResult
 
-class MovieDataSource(private val context: Context) : IMovieDataSource<MovieData> {
+class MovieDataSource(private val context: Context) : IMovieDataSource<Movie> {
 
-    private lateinit var cashedMoviesList: Map<Int, MovieData>
+    private lateinit var cashedMoviesList: Map<Int, Movie>
     private val jsonFormat = Json { ignoreUnknownKeys = true }
 
-    override suspend fun loadMovies(): Result<List<MovieData>> {
-        return Result.Success(loadMovies(context))
+    override suspend fun loadMovies(page: Int): MovieResult<List<Movie>> {
+        return MovieResult.Success(loadMovies(context))
     }
 
-    override suspend fun getMovieById(id: Int): Result<MovieData> {
-        val movie = cashedMoviesList[id] ?: return Result.Error(Exception("Movie not found"))
-        return Result.Success(movie)
+    override suspend fun getMovieById(id: Int): MovieResult<Movie> {
+        val movie = cashedMoviesList[id] ?: return MovieResult.Error(Exception("Movie not found"))
+        return MovieResult.Success(movie)
     }
 
-    private suspend fun loadGenres(context: Context): List<GenreData> =
+    private suspend fun loadGenres(context: Context): List<Genre> =
         withContext(Dispatchers.IO) {
             val data = readAssetFileToString(context, "genres.json")
             parseGenres(data)
         }
 
-    private fun parseGenres(data: String): List<GenreData> {
+    private fun parseGenres(data: String): List<Genre> {
         val jsonGenres = jsonFormat.decodeFromString<List<JsonGenre>>(data)
-        return jsonGenres.map { GenreData(id = it.id, name = it.name) }
+        return jsonGenres.map { Genre(id = it.id, name = it.name) }
     }
 
     private fun readAssetFileToString(context: Context, fileName: String): String {
@@ -42,18 +43,18 @@ class MovieDataSource(private val context: Context) : IMovieDataSource<MovieData
         return stream.bufferedReader().readText()
     }
 
-    private suspend fun loadActors(context: Context): List<ActorData> =
+    private suspend fun loadActors(context: Context): List<Actor> =
         withContext(Dispatchers.IO) {
             val data = readAssetFileToString(context, "people.json")
             parseActors(data)
         }
 
-    private fun parseActors(data: String): List<ActorData> {
+    private fun parseActors(data: String): List<Actor> {
         val jsonActors = jsonFormat.decodeFromString<List<JsonActor>>(data)
-        return jsonActors.map { ActorData(id = it.id, name = it.name, picture = it.profilePicture) }
+        return jsonActors.map { Actor(id = it.id, name = it.name, picture = it.profilePicture) }
     }
 
-    private suspend fun loadMovies(context: Context): List<MovieData> =
+    private suspend fun loadMovies(context: Context): List<Movie> =
         withContext(Dispatchers.IO) {
             val genresMap = loadGenres(context)
             val actorsMap = loadActors(context)
@@ -66,16 +67,16 @@ class MovieDataSource(private val context: Context) : IMovieDataSource<MovieData
 
     private fun parseMovies(
         data: String,
-        genres: List<GenreData>,
-        actors: List<ActorData>
-    ): List<MovieData> {
+        genres: List<Genre>,
+        actors: List<Actor>
+    ): List<Movie> {
         val genresMap = genres.associateBy { it.id }
         val actorsMap = actors.associateBy { it.id }
 
         val jsonMovies = jsonFormat.decodeFromString<List<JsonMovie>>(data)
 
         return jsonMovies.map { jsonMovie ->
-            MovieData(
+            Movie(
                 id = jsonMovie.id,
                 title = jsonMovie.title,
                 overview = jsonMovie.overview,
@@ -87,7 +88,7 @@ class MovieDataSource(private val context: Context) : IMovieDataSource<MovieData
                 runtime = jsonMovie.runtime,
                 genres = jsonMovie.genreIds.map {
                     genresMap[it] ?: throw IllegalArgumentException("Genre not found")
-                },
+                }.joinToString(", ") { it.name },
                 actors = jsonMovie.actors.map {
                     actorsMap[it] ?: throw IllegalArgumentException("Actor not found")
                 }

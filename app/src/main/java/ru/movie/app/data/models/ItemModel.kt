@@ -1,4 +1,4 @@
-package ru.movie.app.ui.model
+package ru.movie.app.data.models
 
 interface ItemModel {
     val id: Int

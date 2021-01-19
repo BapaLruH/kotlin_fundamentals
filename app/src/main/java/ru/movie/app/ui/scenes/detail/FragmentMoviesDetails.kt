@@ -8,14 +8,14 @@ import androidx.fragment.app.Fragment
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import ru.movie.app.R
+import ru.movie.app.data.models.Actor
+import ru.movie.app.data.models.Movie
 import ru.movie.app.databinding.CellActorBinding
 import ru.movie.app.databinding.FragmentMoviesDetailsBinding
 import ru.movie.app.ui.MainApp
 import ru.movie.app.ui.extensions.dpToPxFloat
 import ru.movie.app.ui.extensions.fragmentViewModels
-import ru.movie.app.ui.model.Actor
-import ru.movie.app.ui.model.Movie
-import ru.movie.app.ui.scenes.adapter.BaseListAdapter
+import ru.movie.app.ui.scenes.adapters.BaseListAdapter
 
 class FragmentMoviesDetails : Fragment() {
     private var movieId: Int? = null
@@ -23,7 +23,7 @@ class FragmentMoviesDetails : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by fragmentViewModels {
         with(requireContext().applicationContext as MainApp) {
-            ViewModelDetails(movieRepository)
+            ViewModelDetails(remoteMovieRepository)
         }
     }
     private lateinit var adapter: BaseListAdapter<CellActorBinding, Actor>
@@ -99,6 +99,7 @@ class FragmentMoviesDetails : Fragment() {
             bindFunction = { holder, actor ->
                 with(holder) {
                     ivActorPhoto.load(actor.picture) {
+                        error(R.drawable.default_user_avatar)
                         transformations(RoundedCornersTransformation(cornerRadius))
                     }
                     tvActorName.text = actor.name

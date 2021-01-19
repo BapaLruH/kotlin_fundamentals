@@ -1,6 +1,6 @@
 @file:Suppress("DiffUtilEquals")
 
-package ru.movie.app.ui.scenes.adapter
+package ru.movie.app.ui.scenes.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import ru.movie.app.ui.model.ItemModel
+import ru.movie.app.data.models.ItemModel
 
 class BaseListAdapter<VB : ViewBinding, T : ItemModel>(
     private val viewInflater: (LayoutInflater, ViewGroup, Boolean) -> VB,
