@@ -18,7 +18,7 @@ class RemoteMovieDataSource : IMovieDataSource<Movie> {
 
     private val initialJob = Job()
     private lateinit var imageConfigurations: PropertiesResponse
-    private var cacheStorageGenres: MutableMap<Int, Genre> = mutableMapOf()
+    private val cacheStorageGenres: MutableMap<Int, Genre> by lazy { mutableMapOf() }
     private val imageProps = ImageSizes()
 
     init {
@@ -76,7 +76,10 @@ class RemoteMovieDataSource : IMovieDataSource<Movie> {
     private suspend fun loadGenres() {
         val genres = RetrofitModule.genresApi.getAllGenres().genres
         if (genres.isNotEmpty()) {
-            cacheStorageGenres = genres.associateBy({ it.id }, { it.toGenre() }).toMutableMap()
+            with(cacheStorageGenres) {
+                clear()
+                putAll(genres.associateBy({ it.id }, { it.toGenre() }))
+            }
         }
     }
 }

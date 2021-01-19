@@ -26,15 +26,6 @@ class ViewModelMoviesList(private val repository: IMovieRepository<Movie>) : Vie
         loadList()
     }
 
-    private fun loadList() {
-        viewModelScope.launch(Dispatchers.IO) {
-            when (val result = repository.loadMovies()) {
-                is Success -> _moviesLiveData.postValue(result.data)
-                is Error -> _moviesLiveData.postValue(emptyList())
-            }
-        }
-    }
-
     fun loadNextPage() {
         viewModelScope.launch(Dispatchers.IO) {
             if (loadingState.value is State.LoadingState || isLoaded) return@launch
@@ -58,7 +49,15 @@ class ViewModelMoviesList(private val repository: IMovieRepository<Movie>) : Vie
                     )
                 )
             }
-
+        }
+    }
+    
+    private fun loadList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when (val result = repository.loadMovies()) {
+                is Success -> _moviesLiveData.postValue(result.data)
+                is Error -> _moviesLiveData.postValue(emptyList())
+            }
         }
     }
 }
