@@ -1,7 +1,7 @@
 package ru.movie.app.ui.model
 
 data class Movie(
-    val id: Int,
+    override val id: Int,
     val title: String,
     val overview: String,
     val poster: String,
@@ -13,4 +13,4 @@ data class Movie(
     val like: Boolean = false,
     val genres: String,
     val actors: List<Actor>
-)
+): ItemModel

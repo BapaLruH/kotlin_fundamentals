@@ -5,10 +5,11 @@ import ru.movie.app.data.Repository
 import ru.movie.app.data.datasource.MovieDataSource
 
 class MainApp : Application() {
+    lateinit var movieRepository: Repository
+        private set
+
     override fun onCreate() {
         super.onCreate()
-
-        val movieRepository = Repository(MovieDataSource(this))
-        AppViewModelFactory.inject(movieRepository)
+        movieRepository = Repository(MovieDataSource(this))
     }
 }

@@ -2,11 +2,13 @@ package ru.movie.app.ui.views
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.annotation.Px
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.scale
 import androidx.core.graphics.toRectF
 import ru.movie.app.R
 import ru.movie.app.ui.extensions.dpToPxFloat
@@ -84,7 +86,7 @@ class CustomImageView @JvmOverloads constructor(
 
     override fun setImageDrawable(drawable: Drawable?) {
         super.setImageDrawable(drawable)
-        if (width != 0 && height != 0)
+        if (drawable!= null && width != 0 && height != 0)
             prepareShader(width, height)
     }
 
@@ -92,8 +94,11 @@ class CustomImageView @JvmOverloads constructor(
         viewRect.set(0, 0, w, h)
 
         val drawable = drawable ?: placeHolder!!
-        resultBm = drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
-            .copy(Bitmap.Config.ARGB_8888, true)
+        val image = if (drawable is BitmapDrawable)
+            drawable.bitmap.scale(w, h)
+        else
+            drawable.toBitmap(w, h, Bitmap.Config.ARGB_8888)
+        resultBm = image.copy(Bitmap.Config.ARGB_8888, true)
 
         val canvas = Canvas(resultBm)
         canvas.drawBitmap(resultBm, viewRect, viewRect, imagePaint)
