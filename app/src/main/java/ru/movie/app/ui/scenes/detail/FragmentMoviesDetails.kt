@@ -27,7 +27,7 @@ class FragmentMoviesDetails : Fragment() {
         }
     }
     private lateinit var adapter: BaseListAdapter<CellActorBinding, Actor>
-    private var cornerRadius: Float = 0f
+    private val cornerRadius: Float by lazy { requireContext().dpToPxFloat(6) }
 
     companion object {
         const val ARG_MOVIE_ID = "movieId"
@@ -63,18 +63,18 @@ class FragmentMoviesDetails : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        cornerRadius = requireContext().dpToPxFloat(6)
-        initAdapter().also {
-            binding.rvActors.adapter = adapter
-        }
+        initAdapter()
+        binding.rvActors.adapter = adapter
+
         initLiveDataObservers()
+        setupListeners()
     }
 
     private fun updateUi(movie: Movie) {
         with(binding) {
             ivMovie.load(movie.backdrop)
             btnBack.setOnClickListener {
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+                requireActivity().onBackPressed()
             }
             tvAgeRestriction.text = getString(R.string.age_restriction, movie.minimumAge)
             tvMovieTitle.text = movie.title
@@ -117,7 +117,9 @@ class FragmentMoviesDetails : Fragment() {
             binding.tvRating.text =
                 this.resources.getQuantityString(R.plurals.reviews, reviews, reviews)
         })
+    }
 
+    private fun setupListeners() {
         binding.customRatingBar.setOnRatingBarChangeListener { _, _, fromUser ->
             if (fromUser) viewModel.changeRating()
         }
